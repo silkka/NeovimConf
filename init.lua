@@ -241,6 +241,19 @@ vim.keymap.set({ 'n' }, '<M-BS>', 'a<C-W><Esc>', { silent = true, noremap = true
 vim.keymap.set({ 'n' }, 'gl', '$', { silent = true, noremap = true })
 vim.keymap.set({ 'n' }, 'gh', '^', { silent = true, noremap = true })
 
+-- Copy Paste
+vim.keymap.set({ 'n' }, '<D-v>', 'p', { silent = true, noremap = true })
+vim.keymap.set({ 'v' }, '<D-c>', 'y', { silent = true, noremap = true })
+vim.keymap.set({ 'i' }, '<D-v>', '<Esc>p', { silent = true, noremap = true })
+
+-- Kakoune
+vim.keymap.set({ 'n' }, 'W', 'vw', { silent = true, noremap = true })
+vim.keymap.set({ 'n' }, 'B', 'vb', { silent = true, noremap = true })
+vim.keymap.set({ 'n' }, 'x', 'V', { silent = true, noremap = true })
+vim.keymap.set({ 'n' }, 'X', 'V', { silent = true, noremap = true })
+vim.keymap.set({ 'v' }, 'x', 'j', { silent = true, noremap = true })
+vim.keymap.set({ 'v' }, 'X', 'k', { silent = true, noremap = true })
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -520,6 +533,13 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+
+-- Neovide setup
+if vim.g.neovide then
+  -- <D-v>
+  -- Put anything you want to happen only in Neovide here
+end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
