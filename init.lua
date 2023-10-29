@@ -21,6 +21,10 @@ vim.opt.rtp:prepend(lazypath)
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
+  -- Nvimtree
+  'nvim-tree/nvim-tree.lua',
+  'nvim-tree/nvim-web-devicons',
+
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -184,6 +188,27 @@ require('lazy').setup({
   -- { import = 'custom.plugins' },
 }, {})
 
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    width = 30,
+    side = "right",
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
 -- Set highlight on search
 vim.o.hlsearch = true
 
@@ -254,6 +279,9 @@ vim.keymap.set({ 'n' }, 'X', 'V', { silent = true, noremap = true })
 vim.keymap.set({ 'v' }, 'x', 'j', { silent = true, noremap = true })
 vim.keymap.set({ 'v' }, 'X', 'k', { silent = true, noremap = true })
 
+-- Nvimtree
+vim.keymap.set({ 'n' }, '<D-e>', ':NvimTreeToggle<CR>', { silent = true, noremap = true })
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -294,6 +322,7 @@ end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<D-p>', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
@@ -504,7 +533,7 @@ cmp.setup {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
+    ['<D-Space>'] = cmp.mapping.complete {},
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
@@ -537,8 +566,7 @@ cmp.setup {
 
 -- Neovide setup
 if vim.g.neovide then
-  -- <D-v>
-  -- Put anything you want to happen only in Neovide here
+  vim.g.neovide_cursor_vfx_mode = "ripple"
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
