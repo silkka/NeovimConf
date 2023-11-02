@@ -21,6 +21,9 @@ vim.opt.rtp:prepend(lazypath)
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
+  -- Copilot Copilot
+  'github/copilot.vim',
+
   -- Nvimtree
   'nvim-tree/nvim-tree.lua',
   'nvim-tree/nvim-web-devicons',
@@ -282,6 +285,10 @@ vim.keymap.set({ 'v' }, 'X', 'k', { silent = true, noremap = true })
 -- Nvimtree
 vim.keymap.set({ 'n' }, '<D-e>', ':NvimTreeToggle<CR>', { silent = true, noremap = true })
 
+-- Copilot
+vim.g.copilot_assume_mapped = true
+
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -538,7 +545,7 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ['Tab'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_locally_jumpable() then
@@ -567,6 +574,7 @@ cmp.setup {
 -- Neovide setup
 if vim.g.neovide then
   vim.g.neovide_cursor_vfx_mode = "ripple"
+  vim.g.neovide_refresh_rate = 120
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
